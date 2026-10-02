@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Happy Birthday, My Love! 🎂✨</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <style>
+    :root {
+      --primary: #ff5e7e;
+      --secondary: #ffa3b5;
+      --bg: #fff0f3;
+      --card-bg: rgba(255, 255, 255, 0.9);
+      --text: #4a4a4a;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #ffe5ec 0%, #fff0f3 50%, #ffccd5 100%);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Floating hearts animation in background */
+    .bg-heart {
+      position: fixed;
+      color: rgba(255, 94, 126, 0.25);
+      animation: floatUp 8s linear infinite;
+      z-index: 0;
+      user-select: none;
+      pointer-events: none;
+    }
+
+    @keyframes floatUp {
+      0% { transform: translateY(105vh) scale(0.6); opacity: 0; }
+      20% { opacity: 0.8; }
+      100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+    }
+
+    .container {
+      width: 90%;
+      max-width: 720px;
+      margin: 40px auto;
+      z-index: 1;
+      text-align: center;
+    }
+
+    /* Hero Envelope Card */
+    .envelope-box {
+      background: var(--card-bg);
+      backdrop-filter: blur(10px);
+      padding: 35px 25px;
+      border-radius: 24px;
+      box-shadow: 0 15px 35px rgba(255, 117, 143, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      transition: all 0.3s ease;
+    }
+
+    h1 {
+      font-family: 'Caveat', cursive;
+      font-size: 3.2rem;
+      color: var(--primary);
+      margin-bottom: 8px;
+    }
+
+    .tagline {
+      font-size: 1rem;
+      color: #7d7d7d;
+      margin-bottom: 25px;
+    }
+
+    .open-btn {
+      background: linear-gradient(45deg, #ff5e7e, #ff758f);
+      border: none;
+      color: white;
+      padding: 14px 28px;
+      font-size: 1.1rem;
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(255, 94, 126, 0.35);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .open-btn:hover {
+      transform: translateY(-2px) scale(1.03);
+      box-shadow: 0 12px 25px rgba(255, 94, 126, 0.5);
+    }
+
+    /* Secret Section Revealed on Click */
+    #surprise-content {
+      display: none;
+      margin-top: 30px;
+    }
+
+    /* Polaroid Gallery */
+    .memories-title {
+      font-family: 'Caveat', cursive;
+      font-size: 2.4rem;
+      color: var(--primary);
+      margin: 40px 0 20px;
+    }
+
+    .polaroid-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+
+    .polaroid {
+      background: white;
+      padding: 12px 12px 20px;
+      border-radius: 8px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+      transition: transform 0.3s ease;
+    }
+
+    .polaroid:nth-child(even) { transform: rotate(2deg); }
+    .polaroid:nth-child(odd) { transform: rotate(-2deg); }
+    .polaroid:hover { transform: scale(1.05) rotate(0deg); z-index: 2; }
+
+    .polaroid img {
+      width: 100%;
+      height: 190px;
+      object-fit: cover;
+      border-radius: 4px;
+    }
+
+    .polaroid-caption {
+      font-family: 'Caveat', cursive;
+      font-size: 1.25rem;
+      margin-top: 10px;
+      color: #555;
+    }
+
+    /* Love Letter */
+    .letter-card {
+      background: #fffdf9;
+      border-left: 5px solid var(--primary);
+      border-radius: 12px;
+      padding: 25px;
+      text-align: left;
+      font-size: 1.05rem;
+      line-height: 1.8;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+      position: relative;
+    }
+
+    .audio-player {
+      margin-top: 25px;
+    }
+
+    audio {
+      width: 100%;
+      max-width: 320px;
+      border-radius: 30px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="envelope-box">
+      <h1>Happy Birthday, [Arya]! 💖</h1>
+      <p class="tagline">A little digital corner dedicated entirely to you.</p>
+      
+      <button class="open-btn" id="surpriseBtn" onclick="revealSurprise()">Tap to open your surprise 🎁</button>
+
+      <div id="surprise-content">
+        <!-- Background Music -->
+        <div class="audio-player">
+          <p style="font-size: 0.85rem; color: #888; margin-bottom: 6px;">Play our favorite song 🎵</p>
+          <!-- Replace song.mp3 with your direct audio link or file -->
+          <audio id="bgSong" controls loop>
+            <source src="Raabta.mp3">
+          </audio>
+        </div>
+
+        <h2 class="memories-title">A Few of My Favorite Moments with You</h2>
+        <div class="polaroid-grid">
+          <div class="polaroid">
+            <img src="Love1.jpeg>
+            <div class="polaroid-caption">Where it all started ✨</div>
+          </div>
+          <div class="polaroid">
+            <img src="Love2.jpeg>
+            <div class="polaroid-caption">My favorite smile 😊</div>
+          </div>
+          <div class="polaroid">
+            <img src="Love.jpeg>
+            <div class="polaroid-caption">To endless adventures 🥂</div>
+          </div>
+        </div>
+
+        <!-- Note Letter -->
+        <div class="letter-card">
+          <h3 style="font-family: 'Caveat', cursive; font-size: 1.8rem; color: var(--primary); margin-bottom: 10px;">To the love of my life,</h3>
+          <p id="typewriterText"></p>
+          <p style="text-align: right; margin-top: 15px; font-family: 'Caveat', cursive; font-size: 1.6rem; color: var(--primary);">
+            Forever yours, <br>[Aqib] ❤️
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Create random floating background hearts
+    function createFloatingHearts() {
+      const heartSymbols = ['❤️', '💖', '🌸', '✨', '💕'];
+      for (let i = 0; i < 20; i++) {
+        const heart = document.createElement('div');
+        heart.className = 'bg-heart';
+        heart.innerText = heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
+        heart.style.left = Math.random() * 100 + 'vw';
+        heart.style.animationDuration = (5 + Math.random() * 6) + 's';
+        heart.style.animationDelay = (Math.random() * 5) + 's';
+        heart.style.fontSize = (16 + Math.random() * 24) + 'px';
+        document.body.appendChild(heart);
+      }
+    }
+    createFloatingHearts();
+
+    // Typewriter message
+    const message = "Happy Birthday! Thank you for bringing so much warmth, laughter, and light into my days. Every memory with you is my absolute favorite, and I can't wait to make a million more by your side. I hope your day is as bright and wonderful as your heart.";
+    let charIndex = 0;
+
+    function typeWriter() {
+      if (charIndex < message.length) {
+        document.getElementById("typewriterText").innerHTML += message.charAt(charIndex);
+        charIndex++;
+        setTimeout(typeWriter, 35);
+      }
+    }
+
+    // Reveal action & confetti blast
+    function revealSurprise() {
+      const content = document.getElementById('surprise-content');
+      const btn = document.getElementById('surpriseBtn');
+      const song = document.getElementById('bgSong');
+
+      btn.style.display = 'none';
+      content.style.display = 'block';
+
+      // Start music if permitted
+      song.play().catch(() => {});
+
+      // Launch Confetti
+      confetti({
+        particleCount: 120,
+        spread: 70,
+        origin: { y: 0.6 }
+      });
+
+      // Start typing note
+      typeWriter();
+    }
+  </script>
+</body>
+</html>
